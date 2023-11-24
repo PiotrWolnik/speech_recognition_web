@@ -11,3 +11,5 @@ SpeechRecognition
 cython
 pipwin
 pyaudio
+bokeh
+tornado
