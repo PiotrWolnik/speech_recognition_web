@@ -141,10 +141,12 @@ wav_audio_data = st_audiorec()
 
 if wav_audio_data is not None:
     st.audio(wav_audio_data, format='audio/wav')
+    with open('audio.wav', mode='bx') as f:
+        f.write(wav_audio_data)
 
 if center_column.button("Translate"):
     model = whisper.load_model("base")
-    audio = torch.from_numpy(wav_audio_data)
-    transcription = model.transcribe(audio)
+    # audio = torch.from_numpy(wav_audio_data)
+    transcription = model.transcribe('audio.wav')
     st.markdown(transcription["text"])
     st.markdown(TranslateWords(transcription["text"], supported_languages[destination_language]).getResult())
