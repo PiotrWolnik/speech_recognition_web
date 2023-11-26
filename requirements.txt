@@ -15,3 +15,5 @@ pyaudio
 # bokeh==2.4.3
 # tornado
 wave
+ffmpeg-python
+git+https://github.com/openai/whisper.git 
