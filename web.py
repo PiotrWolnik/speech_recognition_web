@@ -148,5 +148,5 @@ if center_column.button("Translate"):
     model = whisper.load_model("base")
     # audio = torch.from_numpy(wav_audio_data)
     transcription = model.transcribe('audio.wav')
-    st.markdown(transcription["text"])
-    st.markdown(TranslateWords(transcription["text"], supported_languages[destination_language]).getResult())
+    st.markdown("Captured text:\n"+transcription["text"])
+    st.markdown("\n\nTranslated text:\n"+TranslateWords(transcription["text"], supported_languages[destination_language]).getResult())
