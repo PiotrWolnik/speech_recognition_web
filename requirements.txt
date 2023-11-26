@@ -12,5 +12,6 @@ streamlit-bokeh-events
 cython
 pipwin
 pyaudio
-bokeh==2.4.3
-tornado
+# bokeh==2.4.3
+# tornado
+wave
