@@ -90,6 +90,7 @@ import speech_recognition as sr
 import cython
 import whisper
 from st_audiorec import st_audiorec
+import torch
 
 class ITranslateWords(ABC):
     def __init__(self):
@@ -143,6 +144,7 @@ if wav_audio_data is not None:
 
 if center_column.button("Translate"):
     model = whisper.load_model("base")
-    transcription = model.transcribe(wav_audio_data)
+    audio = torch.from_numpy(wav_audio_data)
+    transcription = model.transcribe(audio)
     st.markdown(transcription["text"])
     st.markdown(TranslateWords(transcription["text"], supported_languages[destination_language]).getResult())
