@@ -143,6 +143,6 @@ if wav_audio_data is not None:
 
 if center_column.button("Translate"):
     model = whisper.load_model("base")
-    transcription = model.transcribe("audio.wav")
+    transcription = model.transcribe(wav_audio_data)
     st.markdown(transcription["text"])
     st.markdown(TranslateWords(transcription["text"], supported_languages[destination_language]).getResult())
