@@ -126,6 +126,8 @@ if center_column.button("Click and say sth......"):
     stream_params = StreamParams()
     recorder = Recorder(stream_params)
     recorder.record(5, "audio.wav")
+    
+if center_column.button("Click and say sth......"):
     model = whisper.load_model("base")
     transcription = model.transcribe("audio.wav")
     st.markdown(transcription["text"])
