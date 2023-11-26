@@ -139,8 +139,9 @@ destination_language = center_column.selectbox(
 # st.sidebar.audio("audio.wav")
 wav_audio_data = st_audiorec()
 
-# if wav_audio_data is not None:
-#     st.audio(wav_audio_data, format='audio/wav')
+if wav_audio_data is not None:
+    st.audio(wav_audio_data, format='audio/wav')
+
 with open('audio.wav', mode='wb') as f:
     f.write(wav_audio_data)
 
