@@ -137,12 +137,31 @@ destination_language = center_column.selectbox(
 
 # st.sidebar.header("Play Original Audio File")
 # st.sidebar.audio("audio.wav")
+import multiprocessing
+ 
+def write_chunk_to_file(args):
+    filename, chunk = args
+    with open(filename, "ab") as file:
+        file.write(chunk)
+ 
+def write_large_data_to_file_parallel(filename, data, num_processes=40):
+    pool = multiprocessing.Pool(processes=num_processes)
+    chunk_size = len(data) // num_processes
+    chunked_data = [data[i:i + chunk_size] for i in range(0, len(data), chunk_size)]
+    args_list = [(filename, chunk) for chunk in chunked_data]
+    pool.map(write_chunk_to_file, args_list)
+    pool.close()
+    pool.join()
+
 wav_audio_data = st_audiorec()
 
 if wav_audio_data is not None:
+    f = open('audio.wav', 'r+')
+    f.truncate(0)
     # st.audio(wav_audio_data, format='audio/wav')
-    with open('audio.wav', mode='wb') as f:
-        f.write(wav_audio_data)
+    write_large_data_to_file_parallel("audio.wav", wav_audio_data)
+    # with open('audio.wav', mode='wb') as f:
+    #     f.write(wav_audio_data)
 
 if center_column.button("Translate"):
     model = whisper.load_model("base")
