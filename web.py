@@ -3,8 +3,8 @@ from languages import supported_languages
 from abc import ABC, abstractmethod
 from deep_translator import GoogleTranslator
 import speech_recognition as sr
-import cython
 import whisper
+from audiorecorder import audiorecorder
 
 class TranslateWords:
     def __init__(self, text_to_translate: str, language_to_translate_to: str):
@@ -17,8 +17,17 @@ class TranslateWords:
         return self.result
 
 class TranslateSpeech:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, language_to_translate_to: str, audio: str) -> None:
+        self.language_to_translate_to = language_to_translate_to
+        model = whisper.load_model("base")
+        self.transcription = model.transcribe(audio)
+    
+    def translate_speech(self) -> str:
+        return TranslateWords(self.transcription["text"], self.language_to_translate_to).getResult()
+
+    def get_transcript_of_speech(self) -> str:
+        return self.transcription["text"]
+
 
 st.set_page_config(page_title="Speech_Translator_Option.ai", page_icon=":studio_microphone:")
 
@@ -34,21 +43,14 @@ destination_language = center_column.selectbox(
         label_visibility="hidden",
 )
 
-from audiorecorder import audiorecorder
-
 st.title("Audio Recorder")
 audio = audiorecorder("Click to record", "Click to stop recording")
 
 if len(audio) > 0:
-    # To play audio in frontend:
     st.audio(audio.export().read())  
-
-    # To save audio to a file, use pydub export method:
     audio.export("audio.wav", format="wav")
 
 if center_column.button("Translate"):
-    model = whisper.load_model("base")
-    # audio = torch.from_numpy(wav_audio_data)
-    transcription = model.transcribe('audio.wav')
-    st.markdown("Captured text:\n"+transcription["text"])
-    st.markdown("\n\nTranslated text:\n"+TranslateWords(transcription["text"], supported_languages[destination_language]).getResult())
+    speech_translator = TranslateSpeech(supported_languages[destination_language], "audio.wav")
+    st.markdown("Captured text:\n"+speech_translator.get_transcript_of_speech())
+    st.markdown("\n\nTranslated text:\n"+speech_translator.translate_speech())
