@@ -5,7 +5,6 @@ from deep_translator import GoogleTranslator
 import speech_recognition as sr
 import cython
 import whisper
-from st_audiorec import st_audiorec
 
 class TranslateWords:
     def __init__(self, text_to_translate: str, language_to_translate_to: str):
