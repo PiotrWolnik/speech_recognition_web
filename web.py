@@ -29,8 +29,6 @@ class TranslateSpeech:
         return self.transcription["text"]
 
 
-st.set_page_config(page_title="Speech_Translator_Option.ai", page_icon=":studio_microphone:")
-
 main_container = st.container()
 _, center_column, _ = main_container.columns([1, 5, 1])
 
