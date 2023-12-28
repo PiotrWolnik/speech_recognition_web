@@ -17,5 +17,5 @@ pyaudio
 wave
 ffmpeg-python
 git+https://github.com/openai/whisper.git
-streamlit-audiorec
 torch
+streamlit-audiorecorder
