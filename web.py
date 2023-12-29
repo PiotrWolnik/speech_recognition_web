@@ -50,6 +50,6 @@ if len(audio) > 0:
     audio.export("audio.wav", format="wav")
 if center_column.button("Translate"):
     data = np.frombuffer(audio.raw_data, np.int16).flatten().astype(np.float32) / 32768.0
-    speech_translator = TranslateSpeech(supported_languages[destination_language], "audio.wav")
+    speech_translator = TranslateSpeech(supported_languages[destination_language], data)
     st.markdown("Captured text:\n"+speech_translator.get_transcript_of_speech())
     st.markdown("\n\nTranslated text:\n"+speech_translator.translate_speech())
