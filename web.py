@@ -18,7 +18,7 @@ class TranslateWords:
         return self.result
 
 class TranslateSpeech:
-    def __init__(self, language_to_translate_to: str, audio: str) -> None:
+    def __init__(self, language_to_translate_to: str, audio: np.ndarray) -> None:
         self.language_to_translate_to = language_to_translate_to
         model = whisper.load_model("base")
         self.transcription = model.transcribe(audio)
