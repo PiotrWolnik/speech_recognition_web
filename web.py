@@ -5,7 +5,6 @@ from deep_translator import GoogleTranslator
 import speech_recognition as sr
 import whisper
 from audiorecorder import audiorecorder
-import numpy as np
 
 class TranslateWords:
     def __init__(self, text_to_translate: str, language_to_translate_to: str):
@@ -18,7 +17,7 @@ class TranslateWords:
         return self.result
 
 class TranslateSpeech:
-    def __init__(self, language_to_translate_to: str, audio: np.ndarray) -> None:
+    def __init__(self, language_to_translate_to: str, audio: str) -> None:
         self.language_to_translate_to = language_to_translate_to
         model = whisper.load_model("base")
         self.transcription = model.transcribe(audio)
@@ -49,7 +48,6 @@ if len(audio) > 0:
     st.audio(audio.export().read())  
     audio.export("audio.wav", format="wav")
 if center_column.button("Translate"):
-    data = np.frombuffer(audio.raw_data, np.int16).flatten().astype(np.float32) / 32768.0
-    speech_translator = TranslateSpeech(supported_languages[destination_language], data)
+    speech_translator = TranslateSpeech(supported_languages[destination_language], "audio.wav")
     st.markdown("Captured text:\n"+speech_translator.get_transcript_of_speech())
     st.markdown("\n\nTranslated text:\n"+speech_translator.translate_speech())
