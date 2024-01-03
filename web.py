@@ -18,13 +18,14 @@ class TranslateWords:
         return self.result
 
 class TranslateSpeech:
-    def __init__(self, language_to_translate_to: str, audio: str) -> None:
+    def __init__(self, language_to_translate_to: str, audio: str, source_language: str = 'auto') -> None:
         self.language_to_translate_to = language_to_translate_to
+        self.source_language = source_language
         model = whisper.load_model("base")
         self.transcription = model.transcribe(audio)
     
     def translate_speech(self) -> str:
-        return TranslateWords(self.transcription["text"], self.language_to_translate_to).getResult()
+        return TranslateWords(self.transcription["text"], self.language_to_translate_to, self.source_language).getResult()
 
     def get_transcript_of_speech(self) -> str:
         return self.transcription["text"]
